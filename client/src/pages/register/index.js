@@ -16,11 +16,7 @@ const SignupSchema = Yup.object().shape({
     .max(50, "Too Long!")
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
-  passworde: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  confirmPassword: Yup.string()
+  password: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
@@ -73,12 +69,6 @@ const Register = () => (
               <Field placeholder="password" name="password" />
               {errors.password && touched.password ? (
                 <div>{errors.password}</div>
-              ) : null}
-            </div>
-            <div>
-              <Field placeholder="confirmPassword" name="confirmPassword" />
-              {errors.confirmPassword && touched.confirmPassword ? (
-                <div>{errors.confirmPassword}</div>
               ) : null}
             </div>
             <div>
