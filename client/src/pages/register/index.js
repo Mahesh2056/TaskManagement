@@ -3,11 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  lastName: Yup.string()
+  fullName: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
@@ -36,11 +32,10 @@ const Register = () => (
       <h1>Signup</h1>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          fullName: "",
           address: "",
-          phoneNumber: "",
           email: "",
+          phoneNumber: "",
           password: "",
           confirmPassword: "",
         }}
@@ -53,15 +48,9 @@ const Register = () => (
         {({ errors, touched }) => (
           <Form>
             <div>
-              <Field placeholder="firstName" name="firstName" />
-              {errors.firstName && touched.firstName ? (
-                <div>{errors.firstName}</div>
-              ) : null}
-            </div>
-            <div>
-              <Field placeholder="lastName" name="lastName" />
-              {errors.lastName && touched.lastName ? (
-                <div>{errors.lastName}</div>
+              <Field placeholder="fullName" name="fullName" />
+              {errors.fullName && touched.fullName ? (
+                <div>{errors.fullName}</div>
               ) : null}
             </div>
             <div>
@@ -71,15 +60,15 @@ const Register = () => (
               ) : null}
             </div>
             <div>
+              <Field placeholder="email" name="email" type="email" />
+              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+            </div>
+            <div>
               <Field placeholder="phoneNumber" name="phoneNumber" />
               {errors.phoneNumber && touched.phoneNumber ? (
                 <div>{errors.phoneNumber}</div>
               ) : null}
-            </div>
-            <div>
-              <Field placeholder="email" name="email" type="email" />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            </div>
+            </div> 
             <div>
               <Field placeholder="password" name="password" />
               {errors.password && touched.password ? (
