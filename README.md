@@ -16,4 +16,5 @@
  
  ## Second Phase
  - [ ] added initial server and client setup
- - [ ] Hash function used in register and login
+ - [ ] added register and login backend logic
+  
