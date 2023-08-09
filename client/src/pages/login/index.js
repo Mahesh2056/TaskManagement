@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import Image from "next/image";
 
 const SigninSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -14,6 +15,7 @@ const Login = () => (
   <center>
     <div>
       <h1>Sign In</h1>
+      <Image src={'/taskmana.png'} width={100} height={100} alt="logo/"></Image>
       <Formik
         initialValues={{
           email: "",

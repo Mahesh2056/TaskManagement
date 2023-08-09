@@ -33,7 +33,6 @@ const Register = () => (
           email: "",
           phoneNumber: "",
           password: "",
-          confirmPassword: "",
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
