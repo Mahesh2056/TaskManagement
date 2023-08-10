@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
  
 const userSchema = new mongoose.Schema({
  fullName: String, // String is shorthand for {type: String}
- address: String,
  email: String,
  phoneNumber: String,
  password: String,

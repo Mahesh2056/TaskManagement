@@ -11,41 +11,84 @@ const SigninSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const Login = () => (
-  <center>
-    <div>
-      <h1>Sign In</h1>
-      <Image src={'/taskmana.png'} width={100} height={100} alt="logo/"></Image>
-      <Formik
-        initialValues={{
-          email: "",
-          password: "",
-        }}
-        validationSchema={SigninSchema}
-        onSubmit={(values) => {
-          // same shape as initial values
-          console.log(values);
-        }}
-      >
-        {({ errors, touched }) => (
-          <Form>
-            <div>
-              <Field placeholder="email" name="email" type="email" />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            </div>
-            <div>
-              <Field placeholder="password" name="password" />
-              {errors.password && touched.password ? (
-                <div>{errors.password}</div>
-              ) : null}
-            </div>
-            <div>
-              <button type="login">Log In</button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  </center>
-);
-export default Login;
+export default function Login() {
+	const registerUser = async (values) => {
+		try {
+			const response = await fetch("http://localhost:3000/user/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(values),
+			});
+			const result = await response.json();
+			console.log("Post response:", result);
+		} catch (error) {
+			console.error("Error posting data:", error);
+		}
+	};
+
+	return (
+		<div className="flex w-5/6  justify-center  m-auto mt-4">
+			<div className="flex flex-col w-full sm:w-3/4 md:w-2/4  lg:w-2/4 xl:w-96  justify-center ">
+				<h1 className=" text-lg mt-4 w-full text-center md:text-2xl font-semibold">
+					Login
+				</h1>
+        <center>
+        <div><Image src={'/taskmana.png'} width={100} height={100} alt="logo/"></Image> </div>
+        </center>
+				<Formik
+					initialValues={{
+						email: "",
+						password: "",
+					}}
+					validationSchema={SigninSchema}
+					onSubmit={(values) => {
+						// same shape as initial values
+						registerUser(values);
+					}}
+				>
+					{({ errors, touched }) => (
+						<Form className="w-full flex flex-col justify-center mx-auto mt-10">
+							<label
+								htmlFor="email"
+								className="block text-sm font-medium leading-6 text-gray-900 mt-5"
+							>
+								Email
+							</label>
+							<Field
+								className="block mt-2  w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6 outline-none"
+								name="email"
+							/>
+							{errors.email && touched.email ? (
+								<div className="text-red-500">{errors.email}</div>
+							) : null}
+
+							<label
+								htmlFor="password"
+								className="block text-sm font-medium leading-6 text-gray-900 mt-5"
+							>
+								Password
+							</label>
+							<Field
+								name="password"
+								type="password"
+								className="block mt-2 w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6 outline-none"
+							/>
+							{errors.password && touched.password ? (
+								<div className="text-red-500">{errors.password}</div>
+							) : null}
+
+							<button
+								type="submit"
+								className="flex mt-6 w-full justify-center rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 active:bg-indigo-800"
+							>
+								Log In
+							</button>
+						</Form>
+					)}
+				</Formik>
+			</div>
+		</div>
+	);
+}
