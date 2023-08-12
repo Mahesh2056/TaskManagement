@@ -1,12 +1,15 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Login from './login'
+import Home from './home'
 import { UseSelector, useSelector } from 'react-redux'
 const inter = Inter({ subsets: ['latin'] })
  
-export default function Home() {
- const {name} =useSelector (state=> state.user)
- return (
- <div>{name}</div>
- )
+export default function Main() {
+ const {isLoggedIn} =useSelector (state=> state.user)
+ if(isLoggedIn){
+    return <Home/>
+ }else{
+    return <Login/>
+ }
 }

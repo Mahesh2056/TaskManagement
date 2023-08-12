@@ -23,16 +23,17 @@ const registerNewUser = async(req,res)=>{
    const loginUser = async(req,res)=>{
       console.log(req.body)
       //req.body -> email,password
-      const data = await Users.findOne({email: req.body.email})
+      const data = await Users.findOne({email: req.body.email}).lean()
       
       if(data){
          const isMatched = await bcrypt.compare(req.body.password, data.password)
          if(isMatched){
-          // token generating logic
+         const {password, ...userDetails} = data
           const token = jwt.sign({ email: req.body.email }, process.env.SECRET_KEY);
           res.json({
             success: true,
-            token
+            token,
+            userDetails
          })
          }else{
             res.json({
