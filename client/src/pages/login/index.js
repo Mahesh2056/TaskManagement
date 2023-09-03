@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useState} from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
 import { setUserDetails } from "../../redux/reducerSlices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const SigninSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -14,7 +15,9 @@ const SigninSchema = Yup.object().shape({
 });
 
 export default function Login() {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
+    const router = useRouter();
+    const [responseMsg, setResponseMsg] = useState({ msgLabel: "", msgType: "" });
 	const handleLogin = async (values) => {
 		try {
 			const response = await fetch("http://localhost:8080/login", {
@@ -26,7 +29,6 @@ export default function Login() {
 			});
 			const result = await response.json();
 			// console.log("Post response:", result);
-			debugger;
 			dispatch(setUserDetails(result))
 		} catch (error) {
 			console.error("Error posting data:", error);
@@ -39,9 +41,6 @@ export default function Login() {
 				<h1 className=" text-lg mt-4 w-full text-center md:text-2xl font-semibold">
 					Login
 				</h1>
-        <center>
-        <div><Image src={'/taskmana.png'} width={100} height={100} alt="logo/"></Image> </div>
-        </center>
 				<Formik
 					initialValues={{
 						email: "",
@@ -90,6 +89,12 @@ export default function Login() {
 							>
 								Log In
 							</button>
+							<div
+                className="text-sm  cursor-pointer hover:text-gray-900 text-center pt-4"
+                onClick={() => router.push("./register")}
+              >
+                <p>Don't have have an account? Sign Up</p>
+              </div>
 						</Form>
 					)}
 				</Formik>

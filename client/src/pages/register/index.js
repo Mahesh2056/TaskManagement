@@ -1,7 +1,10 @@
-import React from "react";
+import React,{useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
+import {Alert} from '@mui/material';
+import Link from "next/link";
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
     .min(2, "Too Short!")
@@ -23,9 +26,11 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Register() {
+	const [responseMsg, setResponseMsg] = useState({ msgLabel: "", msgType: "" });
+  const router = useRouter();
 	const registerUser = async (values) => {
 		try {
-			const response = await fetch("http://localhost:3000/user/register", {
+			const response = await fetch("http://localhost:8080/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -33,8 +38,12 @@ export default function Register() {
 				body: JSON.stringify(values),
 			});
 			const result = await response.json();
-			console.log("Post response:", result);
+			if(response.status){
+			setResponseMsg({msgLabel: result.msg, msgType: response.status == 409 ? 'error': 'success'})
+			}
+			// console.log("Post response:", result);
 		} catch (error) {
+			setResponseMsg({msgLabel: 'something went wrong', msgType: 'error'})
 			console.error("Error posting data:", error);
 		}
 	};
@@ -45,6 +54,7 @@ export default function Register() {
 				<h1 className=" text-lg mt-4 w-full text-center md:text-2xl font-semibold">
 					Create your account now
 				</h1>
+				
 				<Formik
 					initialValues={{
 						fullName: "",
@@ -61,6 +71,8 @@ export default function Register() {
 				>
 					{({ errors, touched }) => (
 						<Form className="w-full flex flex-col justify-center mx-auto mt-10">
+							{responseMsg.msgType && <Alert severity={responseMsg.msgType} onClose={() => setResponseMsg({msgLabel: '', msgType: ''})}> {responseMsg.msgLabel} </Alert>}
+							
 							<label
 								htmlFor="fullName"
 								className="block text-sm font-medium leading-6 text-gray-900 mt-5"
@@ -135,6 +147,12 @@ export default function Register() {
 							>
 								Sign Up
 							</button>
+							<div
+                className="text-sm cursor-pointer hover:text-gray-900 text-center pt-4"
+                onClick={() => router.push("./login")}
+              >
+                <p>Already have have an account? Sign In</p>
+              </div>
 						</Form>
 					)}
 				</Formik>

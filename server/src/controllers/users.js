@@ -49,12 +49,7 @@ const registerNewUser = async(req,res)=>{
          })
       }
 
-      //1. email
-      //2.email user -> No: "no user found"
-                   // -> YES: "comapre password (db.hashPassword-----req.body.password)"
-                   // -> No: "Incorrect Password"
-                   // -> YES: "generate a token"
-                   // -> res.json({token...})
+    
    }
 
    module.exports = {registerNewUser,loginUser}
