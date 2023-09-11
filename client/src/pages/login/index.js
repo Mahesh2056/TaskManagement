@@ -1,7 +1,7 @@
-import React,{useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import Image from "next/image";
+// import Image from "next/image";
 import { setUserDetails } from "../../redux/reducerSlices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -40,6 +40,7 @@ export default function Login() {
 			<div className="flex flex-col w-full sm:w-3/4 md:w-2/4  lg:w-2/4 xl:w-96  justify-center ">
 				<h1 className=" text-lg mt-4 w-full text-center md:text-2xl font-semibold">
 					Login
+					{/* <Image src={'/logo.png'} width={100} height={100} alt="logo/"></Image> */}
 				</h1>
 				<Formik
 					initialValues={{
